@@ -25,7 +25,7 @@ public class CalculatorAdvanced extends Calculator {
 		}
 		int parsedValue = (int) Math.floor(getCurrentValue());
 		if (action >= '0' && action <= '9') {
-			int pow = (int) action;
+			int pow = Character.getNumericValue(action);
 
 			setCurrentValue((double) power(parsedValue, pow));
 		} else {
