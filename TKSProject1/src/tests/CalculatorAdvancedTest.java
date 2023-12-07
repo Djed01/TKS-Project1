@@ -1,4 +1,4 @@
-package tests.org.unibl.etf;
+package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.stream.Stream;
@@ -19,6 +19,9 @@ import org.unibl.etf.tks.DivisionByZeroException;
 import org.unibl.etf.tks.NotSupportedOperationException;
 import org.unibl.etf.tks.NumberNotInAreaException;
 
+/**
+ * JUnit test class for the CalculatorAdvanced class.
+ */
 class CalculatorAdvancedTest {
 	
 	private CalculatorAdvanced calculator = new CalculatorAdvanced();
@@ -39,6 +42,9 @@ class CalculatorAdvancedTest {
 	void tearDown() throws Exception {
 	}
 
+	 /**
+     * Test method for the initial state of the CalculatorAdvanced.
+     */
 	@Test
 	void initialTest() {
 		CalculatorAdvanced calculator = new CalculatorAdvanced();
@@ -46,6 +52,15 @@ class CalculatorAdvancedTest {
 		assertThat(calculator.getCurrentValue(), equalTo(0.0));
 	}
 	
+	 /**
+     * Parameterized test for the calculateAdvanced method with valid input.
+     * @param currentValue Initial value of the calculator.
+     * @param option Operator for the advanced calculation.
+     * @param result Expected result after the advanced calculation.
+     * @throws NotSupportedOperationException if the operation is not supported.
+     * @throws NumberNotInAreaException if the number is not in the valid range.
+     * @throws DivisionByZeroException if division by zero occurs.
+     */
 	@ParameterizedTest
 	@MethodSource("mulParamCalculateAdvancedTest")
 	void calculateAdvancedTest(Double currentValue, char option, Double result) throws NotSupportedOperationException, NumberNotInAreaException, DivisionByZeroException {
@@ -54,6 +69,10 @@ class CalculatorAdvancedTest {
 		assertThat(result, is(calculator.getCurrentValue()));
 	}
 	
+	/**
+     * Provides arguments for the calculateAdvancedTest method.
+     * @return Stream of Arguments containing test input and expected output.
+     */
 	private static Stream<Arguments> mulParamCalculateAdvancedTest() {
 		return Stream.of(
 				Arguments.of(0.0, '0', 1.0),
@@ -67,21 +86,41 @@ class CalculatorAdvancedTest {
 				Arguments.of(10.0, '!', 3628800.0));
 	}
 	
-	
+	 /**
+     * Parameterized test for the calculateAdvanced method with invalid input causing exceptions.
+     * @param currentValue Initial value of the calculator.
+     * @param option Operator for the advanced calculation.
+     * @param exceptionClass Expected exception type.
+     * @throws NotSupportedOperationException if the operation is not supported.
+     * @throws NumberNotInAreaException if the number is not in the valid range.
+     * @throws DivisionByZeroException if division by zero occurs.
+     */
 	@ParameterizedTest
-	@MethodSource("mulParamcalculateAdvancedTestException")
+	@MethodSource("mulParamCalculateAdvancedTestException")
 	void calculateAdvancedTest(Double currentValue, char option, Class<? extends Exception> exceptionClass) throws NotSupportedOperationException, NumberNotInAreaException, DivisionByZeroException {
 		calculator.setCurrentValue(currentValue);
 		Exception exception = assertThrows(exceptionClass, () -> calculator.calculateAdvanced(option));
 		assertThat(exception, is(instanceOf(exceptionClass)));
 	}
 	
-	private static Stream<Arguments> mulParamcalculateAdvancedTestException() {
+	 /**
+     * Provides arguments for the calculateAdvancedTestException method.
+     * @return Stream of Arguments containing test input and expected exception type.
+     */
+	private static Stream<Arguments> mulParamCalculateAdvancedTestException() {
 		return Stream.of(Arguments.of(0.0, 'x', NotSupportedOperationException.class),
 				Arguments.of(-0.01, '!', NumberNotInAreaException.class),
 				Arguments.of(10.01, '!', NumberNotInAreaException.class));
 	}
 	
+	 /**
+     * Parameterized test for the hasCharacteristic method.
+     * @param value Value to check for characteristics.
+     * @param option Characteristic option.
+     * @param result Expected result of the hasCharacteristic method.
+     * @throws NotSupportedOperationException if the operation is not supported.
+     * @throws NumberNotInAreaException if the number is not in the valid range.
+     */
 	@ParameterizedTest
 	@MethodSource("hasCharacteristicsTests")
 	void hasCharacteristicsTest(Double value, char option, Boolean result) throws NotSupportedOperationException, NumberNotInAreaException {
@@ -89,6 +128,10 @@ class CalculatorAdvancedTest {
 		assertThat(result, is(calculator.hasCharacteristic(option)));
 	}
 	
+	/**
+     * Provides arguments for the hasCharacteristicsTest method.
+     * @return Stream of Arguments containing test input and expected output.
+     */
 	private static Stream<Arguments> hasCharacteristicsTests() {
 		return Stream.of(
 				Arguments.of(153.0, 'A', true),
@@ -103,6 +146,14 @@ class CalculatorAdvancedTest {
 	}
 	
 	
+	 /**
+     * Parameterized test for the hasCharacteristic method with invalid input causing exceptions.
+     * @param value Value to check for characteristics.
+     * @param option Characteristic option.
+     * @param exceptionClass Expected exception type.
+     * @throws NotSupportedOperationException if the operation is not supported.
+     * @throws NumberNotInAreaException if the number is not in the valid range.
+     */
 	@ParameterizedTest
 	@MethodSource("hasCharacteristicsTestsException")
 	void hasCharacteristicsExceptionsTest(Double value, char option, Class<? extends Exception> exceptionClass) throws NotSupportedOperationException, NumberNotInAreaException {
@@ -111,6 +162,10 @@ class CalculatorAdvancedTest {
 		assertThat(exc, is(instanceOf(exceptionClass)));
 	}
 	
+	/**
+     * Provides arguments for the hasCharacteristicsTestsException method.
+     * @return Stream of Arguments containing test input and expected output.
+     */
 	private static Stream<Arguments> hasCharacteristicsTestsException() {
 		return Stream.of(
 				Arguments.of(7.0, 'a', NotSupportedOperationException.class),

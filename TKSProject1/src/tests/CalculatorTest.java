@@ -1,4 +1,4 @@
-package tests.org.unibl.etf;
+package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.stream.Stream;
@@ -18,6 +18,9 @@ import org.unibl.etf.tks.Calculator;
 import org.unibl.etf.tks.DivisionByZeroException;
 import org.unibl.etf.tks.NotSupportedOperationException;
 
+/**
+ * JUnit test class for the Calculator class.
+ */
 class CalculatorTest {
 	
 	private Calculator calculator = new Calculator();
@@ -38,6 +41,9 @@ class CalculatorTest {
 	void tearDown() throws Exception {
 	}
 
+	 /**
+     * Test method for the initial state of the Calculator.
+     */
 	@Test
 	void initialTest() {
 		Calculator calculator = new Calculator();
@@ -46,6 +52,16 @@ class CalculatorTest {
 	}
 	
 	
+	
+	/**
+     * Parameterized test for the calculate method with valid input.
+     * @param currentValue Initial value of the calculator.
+     * @param value Value to be used in the calculation.
+     * @param option Operator for the calculation.
+     * @param result Expected result after the calculation.
+     * @throws DivisionByZeroException if division by zero occurs.
+     * @throws NotSupportedOperationException if the operation is not supported.
+     */
 	@ParameterizedTest
 	@MethodSource("mulParamCalculateTest")
 	public void mulParamCalculateTest(Double currentValue, Double value, char option, Double result) throws DivisionByZeroException, NotSupportedOperationException {
@@ -55,6 +71,10 @@ class CalculatorTest {
 	}
 	
 	
+	   /**
+     * Provides arguments for the mulParamCalculateTest method.
+     * @return Stream of Arguments containing test input and expected output.
+     */
 	private static Stream<Arguments> mulParamCalculateTest() {
 		return Stream.of(
 				Arguments.of(0.0,7.0,'+',7.0),
@@ -65,6 +85,16 @@ class CalculatorTest {
 				Arguments.of(12.0, 4.0, '/', 3.0));
 	}
 	
+	
+	/**
+     * Parameterized test for the calculate method with invalid input causing exceptions.
+     * @param currentValue Initial value of the calculator.
+     * @param value Value to be used in the calculation.
+     * @param option Operator for the calculation.
+     * @param exceptionType Expected exception type.
+     * @throws DivisionByZeroException if division by zero occurs.
+     * @throws NotSupportedOperationException if the operation is not supported.
+     */
 	@ParameterizedTest
 	@MethodSource("mulParamExceptionTest")
 	public void mulParamCalculateTest(Double currentValue, Double value, char option, Class<? extends Exception> exceptionType) throws DivisionByZeroException, NotSupportedOperationException {
@@ -72,7 +102,10 @@ class CalculatorTest {
 		assertThrows(exceptionType, () -> calculator.calculate(value, option));
 	}
 	
-	
+	 /**
+     * Provides arguments for the mulParamExceptionTest method.
+     * @return Stream of Arguments containing test input and expected exception type.
+     */
 	private static Stream<Arguments> mulParamExceptionTest() {
 		return Stream.of(
 				Arguments.of(0.0, 7.0, '#', NotSupportedOperationException.class),

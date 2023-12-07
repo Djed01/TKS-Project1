@@ -64,13 +64,13 @@ public class CalculatorAdvanced extends Calculator {
 
 	/**
 	 * Calculates the power of a number.
-	 * @param parsedValue Base number of the power function.
+	 * @param value Base number of the power function.
 	 * @param pow Exponent for the power function.
 	 */
-	private int power(int parsedValue, int pow) {
+	private int power(int value, int pow) {
 		int temp = 1;
 		for (int i = 0; i < pow; i++) {
-			temp *= parsedValue;
+			temp *= value;
 		}
 		return temp;
 	}
@@ -80,9 +80,9 @@ public class CalculatorAdvanced extends Calculator {
 	 * @param parsedValue The number which factorial is calculating.
 	 * @return returns the factorial value.
 	 */
-	private int factoriel(int parsedValue) {
+	private int factoriel(int value) {
 		int temp = 1;
-		for (int i = 1; i <= parsedValue; i++) {
+		for (int i = 1; i <= value; i++) {
 			temp *= i;
 		}
 		return temp;
